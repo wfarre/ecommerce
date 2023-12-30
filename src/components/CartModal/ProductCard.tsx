@@ -1,18 +1,20 @@
-import React, { MouseEventHandler } from "react";
+import React, { useContext } from "react";
 
 import DeleteIcon from "../../assets/images/icon-delete.svg";
+import { CartContext } from "../../libs/context";
 
 type Props = {
   title: string;
   url: string;
   quantity: number;
   price: number;
-  handleDeleteItem(index: number): MouseEventHandler;
   index: number;
 };
 
 const ProductCard = (props: Props) => {
   const totalPrice: number = props.price * props.quantity;
+
+  const { deleteItem } = useContext(CartContext);
 
   return (
     <li className="product">
@@ -25,7 +27,7 @@ const ProductCard = (props: Props) => {
         <p className="name">{props.title}</p>
 
         <div className="price-info">
-          <p className="price">
+          <p className="cart-price">
             ${props.price} x {props.quantity}
           </p>
           <span className="total">${totalPrice}</span>
@@ -33,12 +35,12 @@ const ProductCard = (props: Props) => {
       </div>
 
       <div className="product__footer">
-        <div
+        <button
           className="image-wrapper image-wrapper--icon"
-          onClick={() => props.handleDeleteItem(props.index)}
+          onClick={() => deleteItem(props.index)}
         >
-          <img src={DeleteIcon} alt="" />
-        </div>
+          <img src={DeleteIcon} alt="delete icon" />
+        </button>
       </div>
     </li>
   );

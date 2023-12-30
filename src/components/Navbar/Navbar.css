@@ -1,13 +1,18 @@
 .navbar {
   display: flex;
   justify-content: flex-start;
-  align-items: baseline;
-  /* height: 112px; */
+  align-items: center;
   margin: 28px calc((165 / 1440) * 100vw);
+  height: fit-content;
   margin-bottom: 90px;
-  /* padding-bottom: 45px; */
+  padding-bottom: 34px;
 
   border-bottom: 1px solid #e4e9f2;
+}
+
+.btn--open,
+.close-btn {
+  display: none;
 }
 
 .navbar__nav {
@@ -27,7 +32,6 @@
 
 .item {
   position: relative;
-  padding-bottom: 45px;
 }
 .item:after {
   content: " ";
@@ -35,7 +39,7 @@
   width: 100%;
   height: 2px;
   left: 0;
-  bottom: 0;
+  top: calc(45px + 1rem + 10px);
   background-color: var(--primary);
   transform: scaleX(0);
   transition: transform 300ms;
@@ -45,7 +49,7 @@
   transform: scaleX(1);
 }
 
-.user-info {
+.navbar__footer {
   position: relative;
   margin-left: auto;
   display: flex;
@@ -76,4 +80,114 @@
   position: relative;
   height: 20px;
   width: 20px;
+  background-color: transparent;
+  border: none;
+}
+
+.button-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-cart {
+  z-index: 0;
+  fill: black;
+}
+
+.notification {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6.5px;
+  z-index: 50;
+  width: 19px;
+  height: 13px;
+  background-color: var(--primary);
+  font-size: 10px;
+  color: #fff;
+}
+
+@media all and (max-width: 600px) {
+  .btn--open,
+  .close-btn {
+    display: block;
+  }
+  .navbar {
+    position: relative;
+    margin: 0;
+    padding: 1.5rem 1.5rem;
+  }
+
+  .navbar__header {
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .navbar__main {
+    position: absolute;
+    display: none;
+    background-color: #fff;
+    width: calc(250px - 25px);
+    height: calc(100vh - 96px);
+
+    left: 0;
+    top: 0;
+
+    z-index: 100;
+  }
+
+  .navbar__footer {
+    gap: 22px;
+  }
+
+  .navbar__nav {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    margin: 0;
+    margin-left: 25px;
+    margin-top: 96px;
+  }
+
+  .menu-bg {
+    content: "";
+    position: fixed;
+    background-color: black;
+    top: 0;
+    left: 0;
+    opacity: 0.75;
+    height: 100vh;
+    width: 100vw;
+    z-index: 90;
+    display: none;
+  }
+
+  .item {
+    padding: 0;
+  }
+
+  .close-btn {
+    position: absolute;
+    left: 25px;
+    top: 25px;
+  }
+
+  .btn--open {
+    height: 16px;
+    width: 16px;
+  }
+
+  .profile {
+    height: 24px;
+    width: 24px;
+  }
+
+  .open {
+    display: flex;
+  }
 }

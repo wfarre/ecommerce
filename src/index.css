@@ -8,8 +8,16 @@
   --title-color: #1d2026;
 }
 
+body {
+  margin: 0;
+}
+
 p {
   color: var(--text-color);
+}
+
+button {
+  cursor: pointer;
 }
 
 h1,

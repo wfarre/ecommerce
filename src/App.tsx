@@ -3,20 +3,20 @@ import CartIcon from "./assets/images/icon-cart.svg";
 import iconPlus from "./assets/images/icon-plus.svg";
 import iconMinue from "./assets/images/icon-minus.svg";
 import Navbar from "./components/Navbar/Navbar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Modal from "./components/Modal/Modal";
+import type { Item } from "./libs/types";
+import Carousel from "./components/Carousel/Carousel";
+import { CartContext } from "./libs/context";
+import Footer from "./components/Footer/Footer";
 
-function App() {
+const App = () => {
   const [modalIsOpened, setModalIsOpened] = useState(false);
-  const [cart, setCart] = useState([]);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [quantity, setQuantity] = useState(0);
+  const { cart, addItem } = useContext(CartContext);
 
-  const removeItem = (index: number) => {
-    const newArray = cart.filter((item) => cart.indexOf(item) !== index);
-
-    setCart(newArray);
-  };
-
-  const item = {
+  const item: Item = {
     brand: "Sneaker Company",
     title: "Fall Limited Edition Sneakers",
     price: 250,
@@ -43,38 +43,21 @@ function App() {
     ],
   };
 
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [quantity, setQuantity] = useState(0);
-
   const handleThumbClick = (index: number) => {
     setCurrentImageIndex(index);
   };
 
-  useEffect(() => {
-    console.log(currentImageIndex);
-    console.log(modalIsOpened);
-    console.log(cart);
-  }, [currentImageIndex, modalIsOpened, cart]);
-
   const addToCart = () => {
     if (quantity > 0) {
-      setCart([
-        ...cart,
-        {
-          title: item.title,
-          url: item.images[0].thumbnail,
-          quantity: quantity,
-          price: item.price - item.price * item.discount,
-        },
-      ]);
+      addItem(item, quantity);
     }
+    setQuantity(0);
   };
+
   return (
     <>
-      <Navbar
-        cart={cart}
-        handleDeleteItem={(index: number) => removeItem(index)}
-      />
+      <div className="menu-background"></div>
+      <Navbar cart={cart} />
       <Modal
         modalIsOpened={modalIsOpened}
         images={item.images}
@@ -83,96 +66,68 @@ function App() {
         handleThumbClick={(key) => handleThumbClick(key)}
         setCurrentImageIndex={(index) => setCurrentImageIndex(index)}
       />
+      <main>
+        <section className="section">
+          <div className="container">
+            <Carousel
+              images={item.images}
+              currentImageIndex={currentImageIndex}
+              handleThumbClick={(key) => handleThumbClick(key)}
+              setModalIsOpened={() => setModalIsOpened(true)}
+            />
 
-      <section className="section">
-        <div className="container">
-          <div className="pictures">
-            <div
-              className="picture-wrapper picture-wrapper--main"
-              onClick={() => setModalIsOpened(true)}
-            >
-              <img src={item.images[currentImageIndex].image} alt="" />
-            </div>
+            <div className="container container--vertical product-info">
+              <header className="section__header">
+                <h2 className="subtitle">{item.brand}</h2>
+                <h1 className="title">{item.title}</h1>
+              </header>
 
-            <div className="container">
-              {item.images.map((image, key) => {
-                console.log(key);
+              <div className="section__main">
+                <p>{item.description}</p>
 
-                return (
-                  <div
-                    key={key}
-                    className={
-                      key === currentImageIndex
-                        ? "current picture-wrapper picture-wrapper--thumb"
-                        : "picture-wrapper picture-wrapper--thumb"
-                    }
-                    id={"thumb" + key}
-                    onClick={() => handleThumbClick(key)}
-                  >
-                    <img src={image.thumbnail} alt="" />
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-
-          <div className="container container--vertical product-info">
-            <header className="section__header">
-              <h2 className="subtitle">{item.brand}</h2>
-              <h1 className="title">{item.title}</h1>
-            </header>
-
-            <div className="section__main">
-              <p>{item.description}</p>
-
-              <div className="container container--pricing">
-                <p className="current-price">
-                  ${item.price - item.price * item.discount}
-                </p>
-                <span className="percentage">{item.discount * 100}%</span>
-                <span className="price">${item.price}</span>
+                <div className="container container--pricing">
+                  <p className="current-price">
+                    ${item.price - item.price * item.discount}
+                  </p>
+                  <span className="percentage">{item.discount * 100}%</span>
+                  <span className="price">${item.price}</span>
+                </div>
               </div>
-            </div>
 
-            <footer className="section__footer">
-              <div className="container">
-                <div className="incrementer">
-                  <button
-                    className="btn btn--minus"
-                    onClick={() => quantity > 0 && setQuantity(quantity - 1)}
-                  >
-                    <img src={iconMinue} alt="" />
-                  </button>
-                  <span>{quantity}</span>
-                  <button
-                    className="btn btn--plus"
-                    onClick={() => quantity <= 9 && setQuantity(quantity + 1)}
-                  >
-                    <img src={iconPlus} alt="" />
+              <footer className="section__footer">
+                <div className="container">
+                  <div className="incrementer">
+                    <button
+                      className="btn btn--minus"
+                      onClick={() => quantity > 0 && setQuantity(quantity - 1)}
+                    >
+                      <img src={iconMinue} alt="" />
+                    </button>
+                    <span>{quantity}</span>
+                    <button
+                      className="btn btn--plus"
+                      onClick={() => quantity <= 9 && setQuantity(quantity + 1)}
+                    >
+                      <img src={iconPlus} alt="" />
+                    </button>
+                  </div>
+
+                  <button className="btn btn--add" onClick={addToCart}>
+                    <div className="icon-wrapper">
+                      <img src={CartIcon} alt="" />
+                    </div>
+                    Add to cart
                   </button>
                 </div>
-
-                <button className="btn btn--add" onClick={addToCart}>
-                  <div className="icon-wrapper">
-                    <img src={CartIcon} alt="" />
-                  </div>
-                  Add to cart
-                </button>
-              </div>
-            </footer>
+              </footer>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
 
-      <div className="attribution">
-        Challenge by{" "}
-        <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">
-          Frontend Mentor
-        </a>
-        . Coded by <a href="#">William Farré</a>.
-      </div>
+      <Footer />
     </>
   );
-}
+};
 
 export default App;

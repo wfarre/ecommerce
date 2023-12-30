@@ -1,0 +1,40 @@
+.picture-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.picture-wrapper--main {
+  height: calc((445 / 1440) * 100vw);
+  width: calc((445 / 1440) * 100vw);
+  border-radius: 15px;
+  margin-bottom: 32px;
+}
+
+.picture-wrapper--thumb {
+  height: 88px;
+  width: 88px;
+  border-radius: 10px;
+}
+
+.picture-wrapper--thumb {
+  border: 2px solid transparent;
+}
+
+.picture-wrapper--thumb:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+@media all and (max-width: 900px) {
+  .picture-wrapper--main {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1/1;
+  }
+}
+
+@media all and (max-width: 600px) {
+  .section .carousel {
+    display: none;
+  }
+}

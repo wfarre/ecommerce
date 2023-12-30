@@ -1,5 +1,4 @@
-import React, { MouseEventHandler } from "react";
-import "../../App.css";
+import React from "react";
 import "./assets/CartModal.css";
 
 // import DeleteIcon from "../../assets/images/icon-delete.svg";
@@ -13,20 +12,19 @@ type Props = {
     url: string;
     price: number;
     quantity: number;
-    handleDeleteItem(index: number): MouseEventHandler;
   }[];
 };
 
 const CartModal = (props: Props) => {
   return (
     <div className={props.isOpen ? "cartModal" : "cartModal hidden"}>
-      <div className="modal__header">
+      <div className="cartModal__header">
         <h2 className="title">Cart</h2>
       </div>
-      <div className="modal__main">
+      <div className="cartModal__main">
         <ul className="cart-list">
           {props.cart.length === 0 ? (
-            <p className="message">The cart is empty</p>
+            <p className="empty-message">The cart is empty</p>
           ) : (
             props.cart.map((item, key) => {
               return (
@@ -37,9 +35,6 @@ const CartModal = (props: Props) => {
                   price={item.price}
                   quantity={item.quantity}
                   url={item.url}
-                  handleDeleteItem={(index: number) =>
-                    props.handleDeleteItem(index)
-                  }
                 />
               );
             })
@@ -49,7 +44,7 @@ const CartModal = (props: Props) => {
         </ul>
       </div>
 
-      <div className="modal__footer">
+      <div className="cartModal__footer">
         {props.cart.length > 0 && (
           <button className="btn btn--checkout">Checkout</button>
         )}
