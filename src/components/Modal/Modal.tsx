@@ -1,10 +1,11 @@
-import React from "react";
+import "../../App.css";
+import "./assets/Modal.css";
+
+import { MouseEventHandler } from "react";
+
 import IconNext from "./assets/icon-next.svg?react";
 import IconPrevious from "./assets/icon-previous.svg?react";
 import IconClose from "./assets/icon-close.svg?react";
-import "../../App.css";
-import "./assets/Modal.css";
-import { MouseEventHandler } from "react";
 import Carousel from "../Carousel/Carousel";
 
 type Props = {

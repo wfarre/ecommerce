@@ -1,21 +1,18 @@
-import React from "react";
 import "./assets/CartModal.css";
 
-// import DeleteIcon from "../../assets/images/icon-delete.svg";
-// import ProductIcon from "../../assets/images/image-product-1-thumbnail.jpg";
+import { useContext } from "react";
+import { CartProviderType } from "../Context/CartProvider";
+import { CartContext } from "../../libs/context";
+
 import ProductCard from "./ProductCard";
 
 type Props = {
   isOpen: boolean;
-  cart: {
-    title: string;
-    url: string;
-    price: number;
-    quantity: number;
-  }[];
 };
 
 const CartModal = (props: Props) => {
+  const { cart } = useContext<CartProviderType>(CartContext);
+
   return (
     <div className={props.isOpen ? "cartModal" : "cartModal hidden"}>
       <div className="cartModal__header">
@@ -23,10 +20,11 @@ const CartModal = (props: Props) => {
       </div>
       <div className="cartModal__main">
         <ul className="cart-list">
-          {props.cart.length === 0 ? (
+          {cart && cart.length === 0 ? (
             <p className="empty-message">The cart is empty</p>
           ) : (
-            props.cart.map((item, key) => {
+            cart &&
+            cart.map((item, key) => {
               return (
                 <ProductCard
                   key={key}
@@ -45,7 +43,7 @@ const CartModal = (props: Props) => {
       </div>
 
       <div className="cartModal__footer">
-        {props.cart.length > 0 && (
+        {cart && cart.length > 0 && (
           <button className="btn btn--checkout">Checkout</button>
         )}
       </div>

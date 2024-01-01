@@ -1,20 +1,24 @@
 import "./App.css";
-import CartIcon from "./assets/images/icon-cart.svg";
-import iconPlus from "./assets/images/icon-plus.svg";
-import iconMinue from "./assets/images/icon-minus.svg";
-import Navbar from "./components/Navbar/Navbar";
-import { useContext, useEffect, useState } from "react";
-import Modal from "./components/Modal/Modal";
-import type { Item } from "./libs/types";
-import Carousel from "./components/Carousel/Carousel";
+
+import { useContext, useState } from "react";
 import { CartContext } from "./libs/context";
+
+import type { Item } from "./libs/types";
+import { CartProviderType } from "./components/Context/CartProvider";
+
+import CartIcon from "./assets/images/icon-cart.svg";
+import IconPlus from "./assets/images/icon-plus.svg";
+import IconMinus from "./assets/images/icon-minus.svg";
+import Navbar from "./components/Navbar/Navbar";
+import Modal from "./components/Modal/Modal";
+import Carousel from "./components/Carousel/Carousel";
 import Footer from "./components/Footer/Footer";
 
 const App = () => {
   const [modalIsOpened, setModalIsOpened] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [quantity, setQuantity] = useState(0);
-  const { cart, addItem } = useContext(CartContext);
+  const { addItem } = useContext<CartProviderType>(CartContext);
 
   const item: Item = {
     brand: "Sneaker Company",
@@ -49,7 +53,7 @@ const App = () => {
 
   const addToCart = () => {
     if (quantity > 0) {
-      addItem(item, quantity);
+      addItem !== undefined && addItem(item, quantity);
     }
     setQuantity(0);
   };
@@ -57,7 +61,7 @@ const App = () => {
   return (
     <>
       <div className="menu-background"></div>
-      <Navbar cart={cart} />
+      <Navbar />
       <Modal
         modalIsOpened={modalIsOpened}
         images={item.images}
@@ -101,20 +105,20 @@ const App = () => {
                       className="btn btn--minus"
                       onClick={() => quantity > 0 && setQuantity(quantity - 1)}
                     >
-                      <img src={iconMinue} alt="" />
+                      <img src={IconMinus} alt="increment quantity by one" />
                     </button>
                     <span>{quantity}</span>
                     <button
                       className="btn btn--plus"
                       onClick={() => quantity <= 9 && setQuantity(quantity + 1)}
                     >
-                      <img src={iconPlus} alt="" />
+                      <img src={IconPlus} alt="decrement quantity by one" />
                     </button>
                   </div>
 
                   <button className="btn btn--add" onClick={addToCart}>
                     <div className="icon-wrapper">
-                      <img src={CartIcon} alt="" />
+                      <img src={CartIcon} alt="add item" />
                     </div>
                     Add to cart
                   </button>

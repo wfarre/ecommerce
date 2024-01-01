@@ -1,6 +1,13 @@
-import React, { ReactNode, useState } from "react";
+import { Dispatch, ReactNode, SetStateAction, useState } from "react";
 import { CartContext } from "../../libs/context";
 import { CartItem, Item } from "../../libs/types";
+
+export interface CartProviderType {
+  cart?: CartItem[];
+  setCart?: Dispatch<SetStateAction<CartItem[]>>;
+  addItem?: (item: Item, quantity: number) => void;
+  deleteItem?: (itemIndex: number) => void;
+}
 
 type Props = { children: ReactNode };
 

@@ -1,28 +1,27 @@
-import React, { useState } from "react";
+import { useContext, useState } from "react";
 
 import Logo from "./assets/logo.svg";
 import profile from "./assets/image-avatar.png";
 import CartIcon from "./assets/icon-cart.svg";
 import "./Navbar.css";
 import CartModal from "../CartModal/CartModal";
-import { CartItem } from "../../libs/types";
 import IconClose from "./assets/icon-close.svg";
 import IconMenu from "./assets/icon-menu.svg";
+import { CartProviderType } from "../Context/CartProvider";
+import { CartContext } from "../../libs/context";
 
 const navLinks: string[] = ["Collections", "Men", "Women", "About", "Contact"];
 
-type Props = {
-  cart: CartItem[];
-};
-
-const Navbar = (props: Props) => {
+const Navbar = () => {
   const [cartIsOpen, setCartIsOpen] = useState(false);
   const [navbarIsOpen, setNavbarIsOpen] = useState(false);
+
+  const { cart } = useContext<CartProviderType>(CartContext);
 
   return (
     <>
       <div className={`menu-bg ${navbarIsOpen && "open"}`}></div>
-      <CartModal isOpen={cartIsOpen} cart={props.cart} />
+      <CartModal isOpen={cartIsOpen} />
       <nav className="navbar">
         <div className="navbar__header">
           <button
@@ -64,9 +63,11 @@ const Navbar = (props: Props) => {
               <img className="icon-cart" src={CartIcon} alt="cart icon" />
             </button>
             <span
-              className={`notification ${props.cart.length === 0 && "hidden"}`}
+              className={`notification ${
+                cart && cart.length === 0 && "hidden"
+              }`}
             >
-              {props.cart.length}
+              {cart && cart.length}
             </span>
           </div>
 

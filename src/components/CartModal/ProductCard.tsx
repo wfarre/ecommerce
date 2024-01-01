@@ -1,7 +1,8 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
+import { CartContext } from "../../libs/context";
+import { CartProviderType } from "../Context/CartProvider";
 
 import DeleteIcon from "../../assets/images/icon-delete.svg";
-import { CartContext } from "../../libs/context";
 
 type Props = {
   title: string;
@@ -14,7 +15,7 @@ type Props = {
 const ProductCard = (props: Props) => {
   const totalPrice: number = props.price * props.quantity;
 
-  const { deleteItem } = useContext(CartContext);
+  const { deleteItem } = useContext<CartProviderType>(CartContext);
 
   return (
     <li className="product">
@@ -37,7 +38,7 @@ const ProductCard = (props: Props) => {
       <div className="product__footer">
         <button
           className="image-wrapper image-wrapper--icon"
-          onClick={() => deleteItem(props.index)}
+          onClick={() => deleteItem && deleteItem(props.index)}
         >
           <img src={DeleteIcon} alt="delete icon" />
         </button>
