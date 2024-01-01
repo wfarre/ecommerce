@@ -31,6 +31,7 @@ const Modal = (props: Props) => {
         </button>
         <button
           className="btn btn--carousel btn--previous"
+          aria-label="previous picture"
           onClick={() =>
             props.currentImageIndex > 0 &&
             props.setCurrentImageIndex(props.currentImageIndex - 1)
@@ -40,6 +41,7 @@ const Modal = (props: Props) => {
         </button>
         <button
           className="btn btn--carousel btn--next"
+          aria-label="next picture"
           onClick={() =>
             props.currentImageIndex < props.images.length - 1 &&
             props.setCurrentImageIndex(props.currentImageIndex + 1)
